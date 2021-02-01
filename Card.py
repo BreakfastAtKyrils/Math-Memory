@@ -19,34 +19,6 @@ class Card:
     def toString(self):
         return 'ID: ' + str(self.row) + '    Card Front: ' + str(self.front) + '    Card Back: ' + str(self.back) + '    Rank: ' + str(self.rank) + '    Days until next review: ' + str(self.days) + '    Misses: ' + str(self.miss)
 
-    # getter & setter methods
-    def getFront(self):
-        return self.front
-
-    def getBack(self):
-        return self.back
-
-    def getRank(self):
-        return self.rank
-    
-    def getRow(self):
-        return self.row
-
-    def getDays(self):
-        return self.days
-
-    def setFront(newFront):
-        self.front = newFront
-
-    def setBack(newBack):
-        self.back = newBack
-
-    def setRank(newRank):
-        self.rank = newRank
-
-    def setDays(newDays):
-        self.days = newDays
-
     def check(self, answer):
         if self.back == str(answer):
             print('Correct!')
@@ -60,8 +32,7 @@ class Card:
         if self.days == 0:
             self.days = 0
         else:
-            olddays = self.days
-            self.days = olddays - 1
+            self.days -= 1
 
     #this method is called once a Card has been answered, to move it up or down the stacks, and to reset the amount of days until the next review
     def answered(self, result):

@@ -7,8 +7,10 @@ class Deck:
     def __init__(self):
         self.all_cards = []
         self.cards_today = []
+        #set filename
         self.data = open('cards_list.csv', mode = 'w', newline='')
 
+    #remove these
     def all_cards_toString(self):
         for x in range(0, len(self.all_cards)):
            return self.all_cards[x].toString()
@@ -31,9 +33,10 @@ class Deck:
     # adds a new card to the deck
 
     def today_deck(self):
-        if len(self.cards_today) > 0:
-            self.cards_today.clear()
+        self.cards_today.clear()
 
+    #for card in self.all_cards:
+    #use "card"
         for x in range(0, len(self.all_cards)):
             if self.all_cards[x].days == 1:
                 self.cards_today.append(x)
@@ -44,9 +47,9 @@ class Deck:
         self.all_cards.append(card)
         self.make_csv()
 
-    #this method goes reviews today's deck by asking user each question
+    #this method reviews today's deck by asking user each question
     def review(self):
-        self.today_deck()
+        #self.today_deck()
         for x in range(0, len(self.cards_today)):
             index = self.cards_today[x]
             question = self.all_cards[index].front
@@ -70,13 +73,14 @@ class Deck:
     def make_csv(self):
         #this resets the csv file to its original blank state
         data = open('cards_list.csv', mode = 'w', newline='')
-        data.close()
+        #data.close()
         #this creates a new csv file with modified data
         for card in self.all_cards:
-            data = open('cards_list.csv', mode = 'a', newline='')
+            #data = open('cards_list.csv', mode = 'a', newline='')
             csv_writer = csv.writer(data, delimiter = ',')
             csv_writer.writerow([card.row, card.front, card.back, card.days, card.rank])
-            data.close()
+            #data.close()
+        data.close()
   
     #this method represents a full day's cycle
     def cycle(self):
