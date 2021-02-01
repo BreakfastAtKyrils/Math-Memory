@@ -1,8 +1,8 @@
 class Card:
 
     # the front and the back of the card are self-explanatory
-    # the rank is the rank of the card is the stack pile, the higher the rank, t    he better memorized it is
-    # the days attribute decrements every day, and when days = 0, the card is to    be reviewed today
+    # the rank is the rank of the card is the stack pile, the higher the rank, the better memorized it is
+    # the days attribute decrements every day, and when days = 0, the card is to be reviewed today
     # id is to quickly find the card row in the .csv file
     def __init__(self, front, back, row, rank=1, days=1, miss=0):
         self.front = front
