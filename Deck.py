@@ -1,75 +1,43 @@
 import csv
 class Deck:
     # all_cards will hold all the cards
-    # cards_today is a temporary daily list holding only the cards scheduled for review
-    # data is the .csv file from which the 2 previous lists are created
+    # file name for the .csv file
 
     def __init__(self):
         self.all_cards = []
-        self.cards_today = []
-        #set filename
-        self.data = open('cards_list.csv', mode = 'w', newline='')
+        self.file_name = 'cards_list.csv'
 
-    #remove these
-    def all_cards_toString(self):
-        for x in range(0, len(self.all_cards)):
-           return self.all_cards[x].toString()
-        
-    def all_cards_print(self):
-        for x in range(0, len(self.all_cards)):
-           print(self.all_cards[x].toString())
-    
-    def cards_today_toString(self):
-        for x in range(0, len(self.cards_today)):
-           return self.cards_today[x].toString()
-        
-    def cards_today_print(self):
-        for x in range(0, len(self.cards_today)):
-            index = self.cards_today[x]
-            print(self.all_cards[index].toString())
+    # this method takes the full deck, check whether days = 0 -> appends to review_deck
+    def create_review_deck(self):
+        review_deck = [card for card in self.all_cards if card.days == 0]
+        return review_deck
 
-    # this method takes the full deck, check whether days = 1,
-    # if so, appends it to cards_today[]
-    # adds a new card to the deck
-
-    def today_deck(self):
-        self.cards_today.clear()
-
-    #for card in self.all_cards:
-    #use "card"
-        for x in range(0, len(self.all_cards)):
-            if self.all_cards[x].days == 1:
-                self.cards_today.append(x)
-            else:
-                pass
-
+     # adds a new card to the deck
     def add_card(self, card):
         self.all_cards.append(card)
         self.make_csv()
 
-    #this method reviews today's deck by asking user each question
-    def review(self):
-        #self.today_deck()
-        for x in range(0, len(self.cards_today)):
-            index = self.cards_today[x]
-            question = self.all_cards[index].front
+    # this method reviews today's deck by asking user each question
+    # it assumes the create_review_deck() method has been called
+    def review(self, deck):
+        for x in range(0, len(deck)):
+            question = deck[x].front
             answer = input('Question: ' + question)
-            result = self.all_cards[index].check(answer)
-            self.all_cards[index].answered(result)
+            result = deck[x].check(answer)
+            deck[x].update(result)
         self.make_csv()
 
-    #this is the method that decrements 1 every night at midnight from the days attribute
+    # this is the method that decrements 1 every night at midnight from the days attribute
     def new_day(self):
         for x in range(0, len(self.all_cards)):
-            if self.all_cards[x].days > 1:
-                old_value =  self.all_cards[x].days
-                self.all_cards[x].days = old_value - 1
-            else:
-                pass
+            if self.all_cards[x].days >= 1:
+                self.all_cards[x].days -= 1
+            elif self.all_cards[x].days < 1:
+                self.all_cads[x] = 0
         self.make_csv()
 
-    #this method is called everytime there is a change to the Deck, it refreshes
-    #the csv file to be up to date    
+    # this method is called everytime there is a change to the Deck, it refreshes
+    # the csv file to be up to date    
     def make_csv(self):
         #this resets the csv file to its original blank state
         data = open('cards_list.csv', mode = 'w', newline='')
@@ -82,18 +50,14 @@ class Deck:
             #data.close()
         data.close()
   
-    #this method represents a full day's cycle
+    # this method represents a full day's cycle
     def cycle(self):
         # we create the new deck with cards that have days == 1
-        self.today_deck()
+        review_deck = self.create_review_deck()
         # we review it
-        self.review()
+        self.review(review_deck)
 
-    #this method returns the difficult cards, where miss > 2
-    def hard_cards(self):
-        hard_cards = []
-        for x in range(0, len(self.all_cards)):
-            if self.all_cards[x].miss > 2:
-                hard_cards.append(self.all_cards[x])
+    # this method returns the difficult cards, where miss > 2
+    def get_hard_cards(self):
+        hard_cards = [card for card in self.all_cards if card.miss > 2]
         return hard_cards
-
