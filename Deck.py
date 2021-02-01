@@ -39,15 +39,10 @@ class Deck:
     # this method is called everytime there is a change to the Deck, it refreshes
     # the csv file to be up to date    
     def make_csv(self):
-        #this resets the csv file to its original blank state
-        data = open('cards_list.csv', mode = 'w', newline='')
-        #data.close()
-        #this creates a new csv file with modified data
+        data = open(self.file_name, mode = 'w', newline='')
         for card in self.all_cards:
-            #data = open('cards_list.csv', mode = 'a', newline='')
             csv_writer = csv.writer(data, delimiter = ',')
             csv_writer.writerow([card.row, card.front, card.back, card.days, card.rank])
-            #data.close()
         data.close()
   
     # this method represents a full day's cycle
